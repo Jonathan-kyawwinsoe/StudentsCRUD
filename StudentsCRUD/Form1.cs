@@ -17,11 +17,7 @@ namespace StudentsCRUD
             txtId.ReadOnly = true;
             LoadStudents();
         }
-        private void btnViewAll_Click(object sender, EventArgs e)
-        {
-            LoadStudents();
-
-        }
+       
         private void btnCreate_Click(object sender, EventArgs e)
         {
             txtName.Focus();
@@ -37,6 +33,18 @@ namespace StudentsCRUD
             NewCreate();
             ClearForm();
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DeleteStudent();
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        // data table ကို grip ထဲ ပြခြင်း
         private void LoadStudents()
         {
             using (OleDbConnection conn = DbConnection.GetDbConnection())
@@ -53,6 +61,8 @@ namespace StudentsCRUD
                 studentGripView.DataSource = dt;
             }
         }
+        
+        // ီData create 
         private void NewCreate()
         {
             using (OleDbConnection conn = DbConnection.GetDbConnection())
@@ -73,12 +83,23 @@ namespace StudentsCRUD
 
                 int result = cmd.ExecuteNonQuery();
 
-                MessageBox.Show("ှSystem ထဲ သို့ အောင်မြင်စွာ ထည့်သ္ငင်းပြီးပါပြီး");
+                if (result > 0)
+                {
+                    MessageBox.Show("ှSystem ထဲ သို့ အောင်မြင်စွာ ထည့်သ္ငင်းပြီးပါပြီး");
 
-                LoadStudents();
-                ClearForm();
+                    LoadStudents();
+                    ClearForm();
+                }
+                else
+                {
+                    MessageBox.Show("Create Fail");
+                }
+
+                
             }
         }
+        
+        // data clear 
         private void ClearForm()
         {
             txtId.Clear();
@@ -93,10 +114,7 @@ namespace StudentsCRUD
             txtName.Focus();
 
         }
-        //private void Update()
-        //{
-
-        //}
+        
         // Data grip view မှ data ကို collect လုပ်ခြင်း
         private void studentGripView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -107,6 +125,7 @@ namespace StudentsCRUD
             LoadStudentToText(e.RowIndex);
 
         }
+        
         private void LoadStudentToText(int rowIndex)
         {
             DataGridViewRow row = studentGripView.Rows[rowIndex];
@@ -119,7 +138,8 @@ namespace StudentsCRUD
             txtClass.Text = row.Cells["Class"].Value?.ToString();
             txtAddress.Text = row.Cells["Address"].Value?.ToString();
         }
-        // data collect လုပ်ခြင်း
+        
+        // data edit လုပ်ခြင်း
         private void EditStudent()
         {
             if (string.IsNullOrWhiteSpace(txtId.Text))
@@ -141,13 +161,14 @@ namespace StudentsCRUD
                                     [Address] = ? where [StudentId] = ?";
                 using (OleDbCommand command = new OleDbCommand(sql, edit))
                 {
-                    command.Parameters.AddWithValue("@StudentId", txtId.Text);
                     command.Parameters.AddWithValue("@StudentName", txtName.Text);
                     command.Parameters.AddWithValue("@FatherName", txtFatherName.Text);
                     command.Parameters.AddWithValue("@DOB", txtDOB.Text);
-                    command.Parameters.AddWithValue("@Class", txtClass.Text);
                     command.Parameters.AddWithValue("@RollNumber", txtRollNumber.Text);
+                    command.Parameters.AddWithValue("@Class", txtClass.Text);
                     command.Parameters.AddWithValue("@Address", txtAddress.Text);
+                    command.Parameters.AddWithValue("@StudentId", txtId.Text);
+
 
                     int result = command.ExecuteNonQuery();
 
@@ -160,6 +181,50 @@ namespace StudentsCRUD
                     else
                     {
                         MessageBox.Show("Update Fail");
+                    }
+                }
+            }
+
+        }
+
+        // delete Student 
+        private void DeleteStudent()
+        {
+            if(string.IsNullOrWhiteSpace(txtId.Text))
+            {
+                MessageBox.Show("You need to delete select Data");
+                return;
+            }
+
+            DialogResult result = MessageBox.Show("Are you sure to delete this student", "Confirm Delete",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                
+            if(result != DialogResult.Yes)
+            {
+                return;
+            }
+
+            using (OleDbConnection delete = DbConnection.GetDbConnection())
+            {
+                delete.Open();
+
+                string sql = @"delete from students where [studentId] = ?";
+
+                using (OleDbCommand del = new OleDbCommand(sql, delete))
+                {
+                    del.Parameters.AddWithValue(@"studentId",Convert.ToInt32(txtId.Text));
+
+                    int deleterow = del.ExecuteNonQuery();
+
+                    if(deleterow > 0)
+                    {
+                        MessageBox.Show("Delete is successfully");
+                        LoadStudents(); 
+                        ClearForm();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Delete fail");
                     }
                 }
             }
