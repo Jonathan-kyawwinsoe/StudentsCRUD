@@ -146,7 +146,7 @@ namespace StudentsCRUD
                     }
                 }catch (OleDbException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show("Data ဖြည့်ပါ");
                 }
             }
         }
