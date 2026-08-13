@@ -17,7 +17,6 @@ namespace StudentsCRUD
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            //txtId.ReadOnly = true;
             LoadStudents();
         }
 
@@ -37,7 +36,6 @@ namespace StudentsCRUD
                 MessageBox.Show("Need to select data");
                 return;
             }
-            //LoadStudentToText(studentGripView.CurrentRow.Index);
             DataGridViewRow row = studentGripView.CurrentRow;
 
             SelectedStudentID = Convert.ToInt32(row.Cells["StudentId"].Value);
@@ -67,7 +65,7 @@ namespace StudentsCRUD
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if(studentGripView.CurrentRow == null)
+            if (studentGripView.CurrentRow == null)
             {
                 MessageBox.Show("Need to select data");
                 return;
@@ -78,12 +76,12 @@ namespace StudentsCRUD
             DialogResult result = MessageBox.Show("Are you sure to delete this student", "Confirm Delete",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-            if (result != DialogResult.Yes)
+            if (result == DialogResult.Yes)
             {
                 DeleteStudent(SelectedStudentID);
             }
 
-           
+
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -155,7 +153,6 @@ namespace StudentsCRUD
         // data clear 
         private void ClearForm()
         {
-            //txtId.Clear();
             txtName.Clear();
             txtFatherName.Clear();
             txtDOB.Clear();
@@ -163,39 +160,12 @@ namespace StudentsCRUD
             txtRollNumber.Clear();
             txtAddress.Clear();
             txtFatherName.Clear();
-
             txtName.Focus();
-
         }
-
-        // Data grip view မှ data ကို collect လုပ်ခြင်း
-        //private void studentGripView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        //{
-        //    if (e.RowIndex < 0)
-        //    {
-        //        return;
-        //    }
-        //    LoadStudentToText(e.RowIndex);
-
-        //}
-
-        //private void LoadStudentToText(int rowIndex)
-        //{
-        //    //DataGridViewRow row = studentGripView.Rows[rowIndex];
-
-        //    ////SelectedStudentID.Text = row.Cells["StudentId"].Value?.ToString();
-        //    //txtName.Text = row.Cells["StudentName"].Value?.ToString();
-        //    //txtFatherName.Text = row.Cells["FatherName"].Value?.ToString();
-        //    //txtDOB.Text = row.Cells["DOB"].Value?.ToString();
-        //    //txtRollNumber.Text = row.Cells["RollNumber"].Value.ToString();
-        //    //txtClass.Text = row.Cells["Class"].Value?.ToString();
-        //    //txtAddress.Text = row.Cells["Address"].Value?.ToString();
-        //}
 
         // data edit လုပ်ခြင်း
         private void EditStudent()
         {
-
             using (OleDbConnection edit = DbConnection.GetDbConnection())
             {
                 edit.Open();
@@ -207,6 +177,7 @@ namespace StudentsCRUD
                                     [RollNumber] = ?,
                                     [Class] = ?,
                                     [Address] = ? where [StudentId] = ?";
+
                 using (OleDbCommand command = new OleDbCommand(sql, edit))
                 {
                     command.Parameters.AddWithValue("@StudentName", txtName.Text);
@@ -216,7 +187,6 @@ namespace StudentsCRUD
                     command.Parameters.AddWithValue("@Class", txtClass.Text);
                     command.Parameters.AddWithValue("@Address", txtAddress.Text);
                     command.Parameters.AddWithValue("@StudentId", SelectedStudentID);
-
 
                     int result = command.ExecuteNonQuery();
 
@@ -243,7 +213,6 @@ namespace StudentsCRUD
         // delete Student 
         private void DeleteStudent(int SelectedStudentID)
         {
-
             using (OleDbConnection delete = DbConnection.GetDbConnection())
             {
                 delete.Open();
@@ -271,8 +240,6 @@ namespace StudentsCRUD
                 }
             }
             studentGripView.Columns["StudentId"].Visible = false;
-
         }
-
     }
 }
