@@ -46,8 +46,6 @@
             this.btnViewDetail = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
-            this.txtId = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.studentGripView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -162,7 +160,7 @@
             this.studentGripView.RowTemplate.Height = 24;
             this.studentGripView.Size = new System.Drawing.Size(1005, 254);
             this.studentGripView.TabIndex = 12;
-            this.studentGripView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.studentGripView_CellContentClick);
+            //this.studentGripView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.studentGripView_CellContentClick);
             // 
             // btnCreate
             // 
@@ -219,31 +217,12 @@
             this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
-            // txtId
-            // 
-            this.txtId.Location = new System.Drawing.Point(502, 40);
-            this.txtId.Multiline = true;
-            this.txtId.Name = "txtId";
-            this.txtId.Size = new System.Drawing.Size(253, 33);
-            this.txtId.TabIndex = 21;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(336, 57);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(68, 16);
-            this.label7.TabIndex = 22;
-            this.label7.Text = "Student ID";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ClientSize = new System.Drawing.Size(1429, 781);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.txtId);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnViewDetail);
@@ -291,8 +270,6 @@
         private System.Windows.Forms.Button btnViewDetail;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnUpdate;
-        private System.Windows.Forms.TextBox txtId;
-        private System.Windows.Forms.Label label7;
     }
 }
 
