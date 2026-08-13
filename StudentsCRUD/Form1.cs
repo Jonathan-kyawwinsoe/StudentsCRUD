@@ -80,8 +80,6 @@ namespace StudentsCRUD
             {
                 DeleteStudent(SelectedStudentID);
             }
-
-
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -131,28 +129,32 @@ namespace StudentsCRUD
                 cmd.Parameters.AddWithValue("@Class", txtClass.Text);
                 cmd.Parameters.AddWithValue("@RollNumber", txtRollNumber.Text);
                 cmd.Parameters.AddWithValue("@Address", txtAddress.Text);
-
-                int result = cmd.ExecuteNonQuery();
-
-                if (result > 0)
+                try
                 {
-                    MessageBox.Show("ှSystem ထဲ သို့ အောင်မြင်စွာ ထည့်သ္ငင်းပြီးပါပြီး");
+                    int result = cmd.ExecuteNonQuery();
 
-                    LoadStudents();
-                    ClearForm();
-                }
-                else
+                    if (result > 0)
+                    {
+                        MessageBox.Show("ှSystem ထဲ သို့ အောင်မြင်စွာ ထည့်သ္ငင်းပြီးပါပြီး");
+
+                        LoadStudents();
+                        ClearForm();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Create Fail");
+                    }
+                }catch (OleDbException ex)
                 {
-                    MessageBox.Show("Create Fail");
+                    MessageBox.Show(ex.Message);
                 }
-
-
             }
         }
 
         // data clear 
         private void ClearForm()
         {
+            studentGripView.ClearSelection();
             txtName.Clear();
             txtFatherName.Clear();
             txtDOB.Clear();
