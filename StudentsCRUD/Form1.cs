@@ -21,7 +21,7 @@ namespace StudentsCRUD
         private void btnCreate_Click(object sender, EventArgs e)
         {
             txtName.Focus();
-
+            ClearForm();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
